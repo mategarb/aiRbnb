@@ -16,7 +16,7 @@ labels <- sprintf(
 
 
 leaflet(nycounties) %>%
-  addTiles() %>% addProviderTiles(providers$Stamen.TonerLite) %>%
+  addTiles() %>% addProviderTiles(providers$CartoDB.Positron) %>%
   addPolygons(
   fillColor = ~pal(x),
 weight = 2,
@@ -37,3 +37,4 @@ labelOptions = labelOptions(
   direction = "auto")) %>%
   addLegend(pal = pal, values = ~x, opacity = 0.7, title = NULL,
             position = "bottomright")
+
