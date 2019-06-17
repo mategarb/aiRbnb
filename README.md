@@ -22,7 +22,7 @@ http://insideairbnb.com/get-the-data.html
 + name                                      
 + summary                                    
 + space                                       
-+ description - apartment description                                
++ description - apartment description (for wordcloud plot)                                
 + experiences_offered                       
 + neighborhood_overview                      
 + notes                                     
