@@ -1,5 +1,6 @@
 library(shinydashboard)
 library(geojsonR)
+library(shiny)
 library(geojsonio)
 
 nycounties <- geojson_read("../data/neighbourhoods.geojson",
