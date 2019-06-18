@@ -63,8 +63,8 @@ http://insideairbnb.com/get-the-data.html
 + smart_location                              
 + country_code                               
 + country                                    
-+ latitude                                 
-+ longitude                                   
++ latitude - apartment position on map - ggmap()                                 
++ longitude - apartment position on map - ggmap()                             
 + is_location_exact                           
 + property_type                              
 + room_type                                  
@@ -73,7 +73,7 @@ http://insideairbnb.com/get-the-data.html
 + bedrooms                                    
 + beds                                       
 + bed_type                                   
-+ amenities                                   
++ amenities - amenities included in the apartment (for wordcloud plot)                              
 + square_feet                                 
 + price                                  
 + weekly_price                               
