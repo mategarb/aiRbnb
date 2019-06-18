@@ -13,7 +13,9 @@ To present Airbnb data collection as a shiny application.
 ### Airbnb dataset
 http://insideairbnb.com/get-the-data.html
 
-### Dataset description
+### Data structure
+
+Input is a table in .csv format.
 
 + id - just id                                        
 + listing_url                                 
