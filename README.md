@@ -26,7 +26,7 @@ Input is a table in .csv format.
 + space                                       
 + description - apartment description (for wordcloud plot)                                
 + experiences_offered                       
-+ neighborhood_overview                      
++ neighborhood_overview - description of a district                  
 + notes                                     
 + transit                                    
 + access                                    
@@ -55,7 +55,7 @@ Input is a table in .csv format.
 + host_has_profile_pic                   
 + host_identity_verified                    
 + street                           
-+ neighbourhood                          
++ neighbourhood - district name                        
 + neighbourhood_cleansed              
 + neighbourhood_group_cleansed             
 + city                                       
