@@ -22,6 +22,8 @@ source("remove_outs.R")
 
 nycounties <- geojson_read("../data/neighbourhoods.geojson",
                            what = "sp")
+valfn <- function(x, y) if(x == y) return("Select another neighbourhood!")
+
 data <- readRDS('../data/Stockholm.rds')
 
 ui <- dashboardPage(
@@ -40,9 +42,12 @@ ui <- dashboardPage(
     shinyDashboardThemes(
       theme = "purple_gradient"
     ),
-    fluidRow(),
 
-    fluidRow(box(width=12,
+
+    fluidRow(
+
+      box(width=12,solidHeader = TRUE,status = 'primary', collapsible = TRUE, background = NULL,
+          title = "Overview",
       pickerInput(
       inputId = "MapParam",
       label = "Select neighbourhood",
@@ -52,9 +57,9 @@ ui <- dashboardPage(
       leafletOutput("map") )),
 
     fluidRow(
-      box(width=12, solidHeader = TRUE,status = 'primary', collapsible = TRUE, background = NULL,
+      box(width=8, height =540 , solidHeader = TRUE,status = 'primary', collapsible = TRUE, background = NULL,
         title = "Word Cloud",
-        column(4, pickerInput(
+        column(3, pickerInput(
           inputId = "WordCloud",
           label = "Type of information",
           choices = c("description", "host_about", "summary", "name", "space", "interaction", "house_rules",
@@ -70,9 +75,20 @@ ui <- dashboardPage(
             `live-search` = TRUE)),
         sliderInput("slider_wc", label = 'Number of words', min = 1,
                     max = 100, value = 10)),
-        column(8,
+        column(9,
         wordcloud2Output("world_cloud"))
-        )
+
+        ),
+      box(width=4, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
+          title = "Neighbourhoods comparison",
+          pickerInput(
+            inputId = "InNeigh2",
+            label = "Select neighbourhood",
+            choices = c(as.character(unique(data$neighbourhood))),
+            options = list(
+              `live-search` = TRUE)
+          ),
+          plotOutput("plot_district_ttest"))
   ),
 
   fluidRow(
@@ -80,29 +96,17 @@ ui <- dashboardPage(
         title = "Price per the room type",
         plotOutput("histogram1")),
 
-    box(width=3, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
+    box(width=6, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
         title = "Superhost fraction",
        plotOutput("plot_superhost_frac")
 
-    ),
-    box(width=3, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
-        title = "Neighbourhoods comparison",
-        pickerInput(
-          inputId = "InNeigh2",
-          label = "Select neighbourhood",
-          choices = c(as.character(unique(data$neighbourhood))),
-          options = list(
-            `live-search` = TRUE)
-        ),
-        plotOutput("plot_district_ttest"))
+    )
   )
 
 
 ))
 
 server <- function(input, output) {
-
-
 
 
   output$map <- renderLeaflet({
@@ -130,6 +134,9 @@ server <- function(input, output) {
   })
 
   output$plot_district_ttest<- renderPlot({
+    shiny::validate(
+      need(input$InNeigh != input$InNeigh2, "Select another neighbourhood!"))
+    #validate(valfn(try(input$InNeigh, input$InNeigh2)))
     district_ttest(input$InNeigh, input$InNeigh2, data)
   })
 

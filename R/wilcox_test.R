@@ -30,7 +30,9 @@ district_ttest <- function(district1, district2, dat_new){
     `colnames<-`(c("Group", "Price"))
 
 
-  q <- ggboxplot(df, x= "Group", y= "Price")
+  q <- ggboxplot(df, x= "Group", y= "Price",
+                 fill="Group",
+                 palette =c("#585add", "#2ed1b8"))
 
   options(scipen = 1)
   options(digits = 2)

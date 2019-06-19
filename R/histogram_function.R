@@ -1,7 +1,6 @@
 histogram_function <- function(district,  dat){
 
-dat[['price']] <- dat %>% .[['price']] %>% as.character %>%
-  parse_number %>% as.numeric
+
 
 if(district == 'Whole City'){
   a <- dat
