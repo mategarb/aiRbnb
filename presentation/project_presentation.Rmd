@@ -1,7 +1,7 @@
 ---
 title: "aiRbnb"
 subtitle: "🏠</br>shiny analysis of Airbnb data"
-author: "Tatiana Belova</br>Mateusz Garbulowski</br>Unn Salberg</br>Karolina Smolinska"
+author: "Tatiana Belova</br>Mateusz Garbulowski</br>Beate Salberg</br>Karolina Smolinska"
 output: xaringan::moon_reader
 ---
 
@@ -20,20 +20,20 @@ http://insideairbnb.com/
 
 # Functionalities
 
-.pull-left[
+
 - A map of regions (price, rating score etc. )
 - Word cloud (description, amenities etc. )
-- Histograph price per room types
-- Pie chart with superhost fraction
-- Boxplots with statistical test for prices in 2 regions
-]
+- Histogram of price per room types
+- Pie chart of superhost fraction
+- Boxplots of statistical test for prices in 2 regions
 
-.pull-right[
-```{r, out.width = "200px", echo=FALSE}
+.pull-left[
+```{r, out.width = "350px", echo=FALSE}
 knitr::include_graphics("sample_map.png")
 ```
-
-```{r, out.width = "250px", echo=FALSE}
+]
+.pull-right[
+```{r, out.width = "350px", echo=FALSE}
 knitr::include_graphics("sample_wordcloud.png")
 ```
 ]
@@ -61,10 +61,62 @@ remove_outs <- function(x, q_min="10%", q_max="90%") {
 
 }
 ```
+
 ---
 
-# Thank you
+# Benchmarking
+```{r echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+names2 <- c("replications","elapsed","relative","user.self","sys.self")
+after <- c(2, 36.213, 1.000, 33.249, 1.050)
+before <- c(2, 454.004, 12.537, 430.026, 7.932)
 
+df<-as.data.frame(rbind(after, before))
+colnames(df) <- names2
+kable(df, format='html', caption="Word cloud function performance")
+```
+</br>
+</br>
+</br>
+```{r echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+names3 <- c("replications","elapsed","relative","user.self","sys.self")
+generate_map <- c(2, 0.046, 5.1, 0.043, 0.002)
+remove_outs <- c(2, 0.009, 1.0, 0.004, 0.002)
+wilcox_test <- c(2, 0.073, 8.1, 0.072, 0.001)
+df2<-as.data.frame(rbind(generate_map, remove_outs, wilcox_test))
+colnames(df2) <- names3
+kable(df2, format='html', caption="Other functions performance")
+```
+
+---
+# aiRbnb app
+
+```{r echo=FALSE}
+knitr::include_graphics("Shiny_panel.png")
+```
+https://github.com/mategarb/aiRbnb
+
+---
+background-image: url(background.jpg)
+fontsize: 50pt
+.center[
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+<font size="20">
+<span style="color:white">
+Thank you
+</span>
+</font>
+
+]
 
 
 

@@ -8,7 +8,7 @@ data <- readRDS("/Users/mateuszgarbulowski/Desktop/RaukR_project/aiRbnb_data/dat
 district <- data$neighbourhood[2]
 info_1 <- c("description", "host_about", "summary", "name", "space", "interaction", "house_rules")
 
-info <- "house_rules"
+info <- "description"
 info_1 <- c("description", "host_about", "summary", "name", "space", "interaction", "house_rules")
 info_2 <- c("amenities", "property_type", "host_verifications", "host_name")
 

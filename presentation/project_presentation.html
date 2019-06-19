@@ -3,7 +3,7 @@
   <head>
     <title>aiRbnb</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Tatiana BelovaMateusz GarbulowskiUnn SalbergKarolina Smolinska" />
+    <meta name="author" content="Tatiana BelovaMateusz GarbulowskiBeate SalbergKarolina Smolinska" />
     <link href="project_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="project_presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -13,7 +13,7 @@ class: center, middle, inverse, title-slide
 
 # aiRbnb
 ## 🏠</br>shiny analysis of Airbnb data
-### Tatiana Belova</br>Mateusz Garbulowski</br>Unn Salberg</br>Karolina Smolinska
+### Tatiana Belova</br>Mateusz Garbulowski</br>Beate Salberg</br>Karolina Smolinska
 
 ---
 
@@ -33,18 +33,18 @@ http://insideairbnb.com/
 
 # Functionalities
 
-.pull-left[
+
 - A map of regions (price, rating score etc. )
 - Word cloud (description, amenities etc. )
-- Histograph price per room types
-- Pie chart with superhost fraction
-- Boxplots with statistical test for prices in 2 regions
+- Histogram of price per room types
+- Pie chart of superhost fraction
+- Boxplots of statistical test for prices in 2 regions
+
+.pull-left[
+&lt;img src="sample_map.png" width="350px" /&gt;
 ]
-
 .pull-right[
-&lt;img src="sample_map.png" width="200px" /&gt;
-
-&lt;img src="sample_wordcloud.png" width="250px" /&gt;
+&lt;img src="sample_wordcloud.png" width="350px" /&gt;
 ]
 
 ---
@@ -71,9 +71,108 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
 
 }
 ```
+
 ---
 
-# Thank you
+# Benchmarking
+&lt;table&gt;
+&lt;caption&gt;Word cloud function performance&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; replications &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; elapsed &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; relative &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; user.self &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sys.self &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; after &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36.213 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.249 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.050 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; before &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 454.004 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.537 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 430.026 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.932 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;table&gt;
+&lt;caption&gt;Other functions performance&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; replications &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; elapsed &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; relative &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; user.self &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sys.self &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; generate_map &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.046 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.043 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.002 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; remove_outs &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.009 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.002 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; wilcox_test &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.073 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.072 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.001 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+# aiRbnb app
+
+&lt;img src="Shiny_panel.png" width="4480" /&gt;
+https://github.com/mategarb/aiRbnb
+
+---
+background-image: url(background.jpg)
+fontsize: 50pt
+.center[
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;font size="20"&gt;
+&lt;span style="color:white"&gt;
+Thank you
+&lt;/span&gt;
+&lt;/font&gt;
+
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
