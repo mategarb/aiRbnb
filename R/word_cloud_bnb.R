@@ -75,6 +75,8 @@ words_inp <- words_inp[,-2]
 colnames(words_inp) <- c("word", "freq")
 
 cols <- colfunc(length(words_inp$freq))
-wordcloud2(words_inp, color=cols)
+words_inp$freq <- as.numeric(words_inp$freq)
+
+return(list(tab=words_inp, colours=cols))
 
 }
