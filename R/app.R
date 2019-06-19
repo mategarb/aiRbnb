@@ -54,8 +54,8 @@ ui <- dashboardPage(
           options = list(
             `live-search` = TRUE)
         ),
-       a
-        #renderWordcloud2('WorldCloud', env = parent.frame(), quoted = FALSE)
+        wordcloud2Output("World_Cloud2"),
+        wordcloud2Output("word_cloud")
         )
   ),
 
