@@ -38,7 +38,7 @@ ui <- dashboardPage(
       pickerInput(
       inputId = "MapParam",
       label = "Select neighbourhood",
-      choices = c('price', 'review_scores_value', 'square_feet'),
+      choices = c('Price [SEK]' , 'Score',  'Size [m2]'),
       options = list(
         `live-search` = TRUE)),
       leafletOutput("map") )),
@@ -54,7 +54,9 @@ ui <- dashboardPage(
           options = list(
             `live-search` = TRUE)
         ),
-        plotOutput("WorldCloud"))
+       a
+        #renderWordcloud2('WorldCloud', env = parent.frame(), quoted = FALSE)
+        )
   ),
 
   fluidRow(
@@ -84,8 +86,11 @@ server <- function(input, output) {
     generate_map("Whole City", nycounties, input$MapParam, data )
   })
 
-  output$WorldCloud <- renderPlot({
+  output$World_Cloud2 <- renderWordcloud2({
     word_cloud_bnb(district = "Whole City", data, input$WordCloud, part_of_speech="adjective", language="english", top_words=30)
+  })
+  output$word_cloud = renderWordcloud2({
+    wordcloud2(demoFreq)
   })
 
 }
