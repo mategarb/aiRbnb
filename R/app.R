@@ -44,7 +44,7 @@ ui <- dashboardPage(
       leafletOutput("map") )),
 
     fluidRow(
-      box(width=6,
+      box(width=12,
         title = "Word Cloud",
         pickerInput(
           inputId = "WordCloud",
@@ -54,8 +54,9 @@ ui <- dashboardPage(
           options = list(
             `live-search` = TRUE)
         ),
-        wordcloud2Output("World_Cloud2"),
-        wordcloud2Output("word_cloud")
+        sliderInput("slider_wc", label = h3("Slider"), min = 1,
+                    max = 100, value = 10),
+        wordcloud2Output("world_cloud")
         )
   ),
 
@@ -86,11 +87,17 @@ server <- function(input, output) {
     generate_map("Whole City", nycounties, input$MapParam, data )
   })
 
-  output$World_Cloud2 <- renderWordcloud2({
-    word_cloud_bnb(district = "Whole City", data, input$WordCloud, part_of_speech="adjective", language="english", top_words=30)
-  })
-  output$word_cloud = renderWordcloud2({
-    wordcloud2(demoFreq)
+  out_wc <- reactive({
+   word_cloud_bnb(district = "Whole City", data, input$WordCloud, part_of_speech="adjective", language="english")
+    })
+
+  output$world_cloud <- renderWordcloud2({
+    out_wc <- out_wc()
+    out_tab <- out_wc$tab[order(out_wc$tab$freq, decreasing = T),][1:input$slider_wc,]
+
+    colfunc <- colorRampPalette(c("darkorchid1","firebrick1", "chartreuse", "deepskyblue", "gold"))
+    cols <- colfunc(length(out_tab$freq))
+    wordcloud2(out_tab, size = 0.5, shuffle = F, color = cols)
   })
 
 }
