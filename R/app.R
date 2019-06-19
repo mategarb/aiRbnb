@@ -23,7 +23,7 @@ ui <- dashboardPage(
     pickerInput(
       inputId = "InNeigh",
       label = "Select neighbourhood",
-      choices = c('Whole City',as.character(nycounties$neighbourhood)),
+      choices = c('Whole City',as.character(unique(data$neighbourhood))),
       options = list(
         `live-search` = TRUE)
     )
@@ -54,6 +54,12 @@ ui <- dashboardPage(
           options = list(
             `live-search` = TRUE)
         ),
+        pickerInput(
+          inputId = "PartOfSpeech",
+          label = "Select part of speech",
+          choices = c('adjective', 'noun', 'verb', 'adverb'),
+          options = list(
+            `live-search` = TRUE)),
         sliderInput("slider_wc", label = h3("Slider"), min = 1,
                     max = 100, value = 10),
         wordcloud2Output("world_cloud")
@@ -66,7 +72,7 @@ ui <- dashboardPage(
         pickerInput(
           inputId = "summary",
           label = "Type of information",
-          choices = c('Whole City',as.character(nycounties$neighbourhood)),
+          choices = c('Whole City',as.character(unique(data$neighbourhood))),
           options = list(
             `live-search` = TRUE)
         )
@@ -88,7 +94,7 @@ server <- function(input, output) {
   })
 
   out_wc <- reactive({
-   word_cloud_bnb(district = "Whole City", data, input$WordCloud, part_of_speech="adjective", language="english")
+   word_cloud_bnb(district = input$InNeigh, data, input$WordCloud, part_of_speech=input$PartOfSpeech, language="english")
     })
 
   output$world_cloud <- renderWordcloud2({
