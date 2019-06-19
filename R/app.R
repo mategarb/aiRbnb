@@ -97,7 +97,7 @@ server <- function(input, output) {
 
     colfunc <- colorRampPalette(c("darkorchid1","firebrick1", "chartreuse", "deepskyblue", "gold"))
     cols <- colfunc(length(out_tab$freq))
-    wordcloud2(out_tab, size = 0.5, shuffle = F, color = cols)
+    wordcloud2(out_tab, size = 0.75, shuffle = F, color = cols)
   })
 
 }
