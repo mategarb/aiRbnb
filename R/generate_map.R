@@ -1,37 +1,24 @@
 generate_map <- function(neighbourhoods, nycounties, parameter, data){
   if(neighbourhoods == 'Whole City'){
 
-
-    parameter.dat <- data %>% .[[parameter]] %>% as.character %>%
-      parse_number %>% as.numeric
-
-    data[[parameter]]  <- data[[parameter]] %>% as.character
-    data[[parameter]] <-     parameter.dat
+    data_summary <- sumarize_data(data, parameter, neighbourhood)
 
 
+  #  data_summary$neighbourhood <- as.character(data_summary$neighbourhood)
+   # data_summary <- data_summary[,match(nycounties$neighbourhood,data_summary$neighbourhood)]
 
 
-    mean.dat <- data %>% select(c(neighbourhood, parameter )) %>%
-      group_by(neighbourhood) %>%
-      summarize(mean_val = round(mean(.data[[parameter]],  na.rm = TRUE), digits=2),
-                max_val = round(max(.data[[parameter]],  na.rm = TRUE), digits=2))
-
-
-  #  mean.dat$neighbourhood <- as.character(mean.dat$neighbourhood)
-   # mean.dat <- mean.dat[,match(nycounties$neighbourhood,mean.dat$neighbourhood)]
-
-
-    pal <- colorBin("YlOrRd", domain = mean.dat$mean_val, bins =  length(mean.dat$neighbourhood))
+    pal <- colorBin("YlOrRd", domain = data_summary$mean_val, bins =  length(data_summary$neighbourhood))
     labels <- sprintf(
       "<strong>%s</strong><br/> %s: %g<sup></sup>",
-      as.character(mean.dat$neighbourhood),parameter, mean.dat$mean_val
+      as.character(data_summary$neighbourhood),parameter, data_summary$mean_val
     ) %>% lapply(htmltools::HTML)
 
 
     p<- leaflet(nycounties) %>%
       addTiles() %>% addProviderTiles(providers$CartoDB.Positron) %>%
       addPolygons(
-        fillColor = ~pal(mean.dat$mean_val),
+        fillColor = ~pal(data_summary$mean_val),
         weight = 2,
         opacity = 1,
         color = "white",
@@ -48,7 +35,7 @@ generate_map <- function(neighbourhoods, nycounties, parameter, data){
           style = list("font-weight" = "normal", padding = "3px 8px"),
           textsize = "15px",
           direction = "auto")) %>%
-      addLegend(pal = pal, values = ~mean.dat$mean_val, opacity = 0.7, title = NULL,
+      addLegend(pal = pal, values = ~data_summary$mean_val, opacity = 0.7, title = NULL,
                 position = "bottomright")
     return(p)
 

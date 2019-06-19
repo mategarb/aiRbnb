@@ -8,6 +8,7 @@ library(leaflet)
 library(geojsonR)
 require(tidyverse)
 source("generate_map.R")
+source("sumarize_data.R")
 
 nycounties <- geojson_read("../data/neighbourhoods.geojson",
                            what = "sp")
@@ -37,26 +38,36 @@ ui <- dashboardPage(
       choices = c('price', 'review_scores_value', 'square_feet'),
       options = list(
         `live-search` = TRUE)),
-      leafletOutput("map")
-
-
-
-
-
-
-
-    )),
+      leafletOutput("map") )),
 
     fluidRow(
-      box(plotOutput("plot1", height = 250)),
+      box(width=12,
+        title = "Word Cloud",
+        pickerInput(
+          inputId = "WordCloud",
+          label = "Type of information",
+          choices = c('Whole City',as.character(nycounties$neighbourhood)),
+          options = list(
+            `live-search` = TRUE)
+        )
 
-      box(
-        title = "Controls",
-        sliderInput("slider", "Number of observations:", 1, 100, 50)
-      )
+    )
+  ),
+
+  fluidRow(
+    box(width=12,
+        title = "Summary",
+        pickerInput(
+          inputId = "summary",
+          label = "Type of information",
+          choices = c('Whole City',as.character(nycounties$neighbourhood)),
+          options = list(
+            `live-search` = TRUE)
+        )
+
     )
   )
-)
+))
 
 server <- function(input, output) {
   set.seed(122)
