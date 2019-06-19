@@ -42,7 +42,9 @@ ui <- dashboardPage(
     shinyDashboardThemes(
       theme = "purple_gradient"
     ),
-
+  fluidRow(  valueBoxOutput("vbox"),
+             infoBoxOutput("bed"),
+             valueBoxOutput("rate")),
 
     fluidRow(
 
@@ -140,6 +142,44 @@ server <- function(input, output) {
     district_ttest(input$InNeigh, input$InNeigh2, data)
   })
 
+  summary_data_price <- reactive({
+    sumarize_data(data, 'price', input$InNeigh) %>% .$mean_val %>% mean
+  })
+
+  summary_data_size <- reactive({
+    sumarize_data(data, 'bedrooms', input$InNeigh) %>% .$mean_val %>% mean
+  })
+
+  summary_data_rate <- reactive({
+    sumarize_data(data, 'review_scores_value', input$InNeigh) %>% .$mean_val %>% mean
+  })
+
+
+
+  output$vbox <- renderValueBox({
+    valueBox(
+      paste0(round(summary_data_price(),2), ' SEK'),
+      paste0("The average price for Stockholm"),
+      icon = icon("dollar"), color = "purple"
+    )
+  })
+
+  output$bed <- renderValueBox({
+    valueBox(
+      paste0(round(summary_data_size(),2)),
+      paste0("The average number of bedrooms for Stockholm"),
+      icon = icon("bed"), color = "yellow"
+    )
+  })
+
+
+  output$rate <- renderValueBox({
+    valueBox(
+      paste0(round(summary_data_rate(),2)),
+      paste0("The average rate  for Stockholm"),
+      icon = icon("stopwatch"), color = "maroon"
+    )
+  })
 }
 
 shinyApp(ui, server)
