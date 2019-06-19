@@ -53,7 +53,7 @@ ui <- dashboardPage(
       pickerInput(
       inputId = "MapParam",
       label = "Select neighbourhood",
-      choices = c('Price [SEK]' , 'Score',  'Bedrooms'),
+      choices = c('Price [SEK]' , 'Rating',  'Bedrooms'),
       options = list(
         `live-search` = TRUE)),
       leafletOutput("map") )),
@@ -175,9 +175,9 @@ server <- function(input, output) {
 
   output$rate <- renderValueBox({
     valueBox(
-      paste0(round(summary_data_rate(),2)),
-      paste0("The average rate  for Stockholm"),
-      icon = icon("stopwatch"), color = "maroon"
+      paste0(round(summary_data_rate(),2), '/10'),
+      paste0("The average rating  for Stockholm"),
+      icon = icon("thumbs-up"), color = "maroon"
     )
   })
 }

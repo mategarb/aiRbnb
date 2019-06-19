@@ -1,7 +1,7 @@
 generate_map <- function(district, nycounties, parameter, data){
 
   parameter2 <- gsub('Price [SEK]', 'price', parameter, fixed = TRUE)
-  parameter2 <- gsub('Score', 'review_scores_value', parameter2, fixed = TRUE)
+  parameter2 <- gsub('Rating', 'review_scores_value', parameter2, fixed = TRUE)
   parameter2 <- gsub('Bedrooms', 'bedrooms', parameter2, fixed = TRUE)
   nycounties$neighbourhood <- c("Kungsholmen", "Östermalm","Bromma","Skärholmen","Södermalm",
                                 "Hägersten-Liljeholmen", "Norrmalm", "Farsta", "Hässelby-Vällingby","Skarpnäck",
