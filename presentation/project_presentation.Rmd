@@ -19,17 +19,54 @@ http://insideairbnb.com/
 ---
 
 # Functionalities
+
+.pull-left[
 - A map of regions (price, rating score etc. )
-
 - Word cloud (description, amenities etc. )
+- Histograph price per room types
+- Pie chart with superhost fraction
+- Boxplots with statistical test for prices in 2 regions
+]
 
-```{r, out.width = "300px", echo=FALSE}
-knitr::include_graphics("sample_wordcloud.png")
+.pull-right[
+```{r, out.width = "200px", echo=FALSE}
+knitr::include_graphics("sample_map.png")
 ```
 
-- Histograph price per room types
+```{r, out.width = "250px", echo=FALSE}
+knitr::include_graphics("sample_wordcloud.png")
+```
+]
 
-- Boxplots with statistical test for regions
+---
+
+# Sample code
+
+removing outliers:
+```{r eval=FALSE}
+remove_outs <- function(x, q_min="10%", q_max="90%") {
+
+  if(!is.character(q_min) | !is.character(q_max)) {
+    w <- simpleWarning("Quantile thresholds should be character. Qmin and Qmax set to default")
+    w %>% print
+    q_min <- "10%"
+    q_max <- "90%"
+  }
+
+  qnts <- quantile(x, probs=seq(0,1,by=.05))
+  cut_1 <- qnts %>% enframe %>% filter(name==q_min) %>% .$value
+  cut_2 <- qnts %>% enframe %>% filter(name==q_max) %>% .$value
+
+  x <- x %>% enframe %>% filter(value > cut_1 & value < cut_2) %>% .$value
+
+}
+```
+---
+
+# Thank you
+
+
+
 
 
 

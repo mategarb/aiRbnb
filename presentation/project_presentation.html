@@ -32,15 +32,48 @@ http://insideairbnb.com/
 ---
 
 # Functionalities
+
+.pull-left[
 - A map of regions (price, rating score etc. )
-
 - Word cloud (description, amenities etc. )
-
-&lt;img src="sample_wordcloud.png" width="300px" /&gt;
-
 - Histograph price per room types
+- Pie chart with superhost fraction
+- Boxplots with statistical test for prices in 2 regions
+]
 
-- Boxplots with statistical test for regions
+.pull-right[
+&lt;img src="sample_map.png" width="200px" /&gt;
+
+&lt;img src="sample_wordcloud.png" width="250px" /&gt;
+]
+
+---
+
+# Sample code
+
+removing outliers:
+
+```r
+remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
+
+  if(!is.character(q_min) | !is.character(q_max)) {
+    w &lt;- simpleWarning("Quantile thresholds should be character. Qmin and Qmax set to default")
+    w %&gt;% print
+    q_min &lt;- "10%"
+    q_max &lt;- "90%"
+  }
+
+  qnts &lt;- quantile(x, probs=seq(0,1,by=.05))
+  cut_1 &lt;- qnts %&gt;% enframe %&gt;% filter(name==q_min) %&gt;% .$value
+  cut_2 &lt;- qnts %&gt;% enframe %&gt;% filter(name==q_max) %&gt;% .$value
+
+  x &lt;- x %&gt;% enframe %&gt;% filter(value &gt; cut_1 &amp; value &lt; cut_2) %&gt;% .$value
+
+}
+```
+---
+
+# Thank you
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
