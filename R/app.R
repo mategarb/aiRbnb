@@ -7,8 +7,11 @@ library(shinyWidgets)
 library(leaflet)
 library(geojsonR)
 require(tidyverse)
+library(udpipe)
+library(wordcloud)
 source("generate_map.R")
 source("sumarize_data.R")
+source("word_cloud_bnb.R")
 
 nycounties <- geojson_read("../data/neighbourhoods.geojson",
                            what = "sp")
@@ -46,10 +49,12 @@ ui <- dashboardPage(
         pickerInput(
           inputId = "WordCloud",
           label = "Type of information",
-          choices = c('Whole City',as.character(nycounties$neighbourhood)),
+          choices = c("description", "host_about", "summary", "name", "space", "interaction", "house_rules",
+                      "amenities", "property_type", "host_verifications", "host_name"),
           options = list(
             `live-search` = TRUE)
-        )
+        ),
+        plotOutput("WorldCloud")
 
     )
   ),
@@ -79,6 +84,10 @@ server <- function(input, output) {
   })
   output$map <- renderLeaflet({
     generate_map("Whole City", nycounties, input$MapParam, data )
+  })
+
+  output$WorldCloud <- renderPlot({
+    word_cloud_bnb(district = "Whole City", data, input$WordCloud, part_of_speech="adjective", language="english", top_words=10)
   })
 
 }

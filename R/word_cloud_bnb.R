@@ -1,14 +1,14 @@
-wordCloudBnb <- function(district, data, info, part_of_speech="adjective", language="english", top_words=10) {
-
+word_cloud_bnb <- function(district, data, info, part_of_speech="adjective", language="english", top_words=10) {
+print(info)
 info_1 <- c("description", "host_about", "summary", "name", "space", "interaction", "house_rules")
 info_2 <- c("amenities", "property_type", "host_verifications", "host_name")
 
 if(any(str_detect(info_1, info))) {
 
-  if(district != "all") {
+  if(district != "Whole City") {
     data <- data %>% filter(neighbourhood==district)
   }
-
+  info <- "description"
   words <- data %>% .[[info]] %>% enframe %>%
     mutate(value=strsplit(value,"[[:space:]]|(?=[.!?])", perl=TRUE))
 
