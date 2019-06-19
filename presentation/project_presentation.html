@@ -3,7 +3,7 @@
   <head>
     <title>aiRbnb</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Tatiana BelovaMateusz GarbulowskiBeate SalbergKarolina Smolinska" />
+    <meta name="author" content="Tatiana BelovaMateusz GarbulowskiBeate SalbergKarolina Smolińska" />
     <link href="project_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="project_presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -13,7 +13,7 @@ class: center, middle, inverse, title-slide
 
 # aiRbnb
 ## 🏠</br>shiny analysis of Airbnb data
-### Tatiana Belova</br>Mateusz Garbulowski</br>Beate Salberg</br>Karolina Smolinska
+### Tatiana Belova</br>Mateusz Garbulowski</br>Beate Salberg</br>Karolina Smolińska
 
 ---
 
@@ -75,12 +75,16 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
 ---
 
 # Benchmarking
+
+```r
+library(rbenchmark)
+```
+
 &lt;table&gt;
 &lt;caption&gt;Word cloud function performance&lt;/caption&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; replications &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; elapsed &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; relative &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; user.self &lt;/th&gt;
@@ -90,7 +94,6 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; after &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 36.213 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.000 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 33.249 &lt;/td&gt;
@@ -98,7 +101,6 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; before &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 454.004 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 12.537 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 430.026 &lt;/td&gt;
@@ -114,7 +116,6 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; replications &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; elapsed &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; relative &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; user.self &lt;/th&gt;
@@ -124,7 +125,6 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; generate_map &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.046 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 5.1 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.043 &lt;/td&gt;
@@ -132,7 +132,6 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; remove_outs &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.009 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
@@ -140,7 +139,6 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; wilcox_test &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.073 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 8.1 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.072 &lt;/td&gt;
@@ -155,6 +153,12 @@ remove_outs &lt;- function(x, q_min="10%", q_max="90%") {
 &lt;img src="Shiny_panel.png" width="4480" /&gt;
 https://github.com/mategarb/aiRbnb
 
+---
+# Session Information
+
+94 packages:
+
+assertthat, backports, broom, cellranger, class, classInt, cli, colorspace, crayon, crosstalk, curl, dashboardthemes, data.table, DBI, digest, dplyr, e1071, evaluate, forcats, foreign, generics, geojson, geojsonio, geojsonR, ggplot2, ggpubr, ggsignif, glue, gtable, haven, hms, htmltools, htmlwidgets, httpuv, httr, jqr, jsonlite, KernSmooth, knitr, labeling, later, lattice, lazyeval, leaflet, lubridate, magrittr, maptools, Matrix, mime, modelr, munsell, nlme, pander, pillar, pkgconfig, plyr, promises, purrr, R6, rbenchmark, RColorBrewer, Rcpp, readr, readxl, rgdal, rgeos, rlang, rmarkdown, rstudioapi, rvest, scales, sessioninfo, sf, shiny, shinydashboard, shinyWidgets, sp, stringi, stringr, tibble, tidyr, tidyselect, tidyverse, udpipe, units, V8, withr, wordcloud, wordcloud2, xaringan, xfun, xml2, xtable, yaml
 ---
 background-image: url(background.jpg)
 fontsize: 50pt
