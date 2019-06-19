@@ -72,6 +72,7 @@ if(any(str_detect(info_2, info))) {
 
 colfunc <- colorRampPalette(c("darkorchid1","firebrick1", "chartreuse", "deepskyblue", "gold"))
 cols <- colfunc(length(words_inp$freq))
+words_inp <- words_inp[,-2]
 
 colnames(words_inp) <- c("word", "freq")
 wordcloud2(words_inp, color=cols)
