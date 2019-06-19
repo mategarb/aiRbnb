@@ -3,9 +3,12 @@ parameter.dat <- data %>% .[[parameter]] %>% as.character %>%
   parse_number %>% as.numeric
 
 data[[parameter]]  <- data[[parameter]] %>% as.character
-data[[parameter]] <-     parameter.dat
+data[[parameter]] <- parameter.dat
 
+if (parameter == 'square_feet'){
+  data[[parameter]] <-   data[[parameter]]/10.764
 
+}
 
 
 data_summary <- data %>% select(c( neighbourhood, parameter )) %>%

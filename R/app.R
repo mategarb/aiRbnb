@@ -20,6 +20,7 @@ data <- readRDS('../data/Stockholm.rds')
 ui <- dashboardPage(
   dashboardHeader(title = "aiRbnb"),
   dashboardSidebar(
+    h3('Stockholm'),
     pickerInput(
       inputId = "InNeigh",
       label = "Select neighbourhood",
@@ -33,20 +34,18 @@ ui <- dashboardPage(
       theme = "purple_gradient"
     ),
     fluidRow(box(width=12,
-
-      title = "Controls",
       pickerInput(
       inputId = "MapParam",
       label = "Select neighbourhood",
-      choices = c('Price [SEK]' , 'Score',  'Size [m2]'),
+      choices = c('Price [SEK]' , 'Score',  'Bedrooms'),
       options = list(
         `live-search` = TRUE)),
       leafletOutput("map") )),
 
     fluidRow(
-      box(width=12,
+      box(width=12, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
         title = "Word Cloud",
-        pickerInput(
+        column(4, pickerInput(
           inputId = "WordCloud",
           label = "Type of information",
           choices = c("description", "host_about", "summary", "name", "space", "interaction", "house_rules",
@@ -56,18 +55,19 @@ ui <- dashboardPage(
         ),
         pickerInput(
           inputId = "PartOfSpeech",
-          label = "Select part of speech",
+          label = "Part of speech",
           choices = c('adjective', 'noun', 'verb', 'adverb'),
           options = list(
             `live-search` = TRUE)),
-        sliderInput("slider_wc", label = h3("Slider"), min = 1,
-                    max = 100, value = 10),
-        wordcloud2Output("world_cloud")
+        sliderInput("slider_wc", label = 'Number of words', min = 1,
+                    max = 100, value = 10)),
+        column(8,
+        wordcloud2Output("world_cloud"))
         )
   ),
 
   fluidRow(
-    box(width=12,
+    box(width=12, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
         title = "Summary",
         pickerInput(
           inputId = "summary",
