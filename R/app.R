@@ -2,21 +2,51 @@ library(shinydashboard)
 library(geojsonR)
 library(shiny)
 library(geojsonio)
+library(dashboardthemes)
+library(shinyWidgets)
+library(leaflet)
+library(geojsonR)
+require(tidyverse)
+source("generate_map.R")
 
 nycounties <- geojson_read("../data/neighbourhoods.geojson",
                            what = "sp")
+data <- read.csv('../data/listings_Stockholm.csv')
 
 ui <- dashboardPage(
-  dashboardHeader(title = "AiRbnb"),
+  dashboardHeader(title = "aiRbnb"),
   dashboardSidebar(
-    sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
-                      label = "Search..."),
-    selectInput("inputTest", "Select neighbourhood",
-                choices = c('Whole City',as.character(nycounties$neighbourhood)), multiple=FALSE, selectize=TRUE,
-                width = '98%')
+    pickerInput(
+      inputId = "InNeigh",
+      label = "Select neighbourhood",
+      choices = c('Whole City',as.character(nycounties$neighbourhood)),
+      options = list(
+        `live-search` = TRUE)
+    )
   ),
   dashboardBody(
-    # Boxes need to be put in a row (or column)
+    shinyDashboardThemes(
+      theme = "purple_gradient"
+    ),
+    fluidRow(box(width=12,
+
+      title = "Controls",
+      pickerInput(
+      inputId = "MapParam",
+      label = "Select neighbourhood",
+      choices = c('price', 'review_scores_value', 'square_feet'),
+      options = list(
+        `live-search` = TRUE)),
+      leafletOutput("map")
+
+
+
+
+
+
+
+    )),
+
     fluidRow(
       box(plotOutput("plot1", height = 250)),
 
@@ -25,7 +55,7 @@ ui <- dashboardPage(
         sliderInput("slider", "Number of observations:", 1, 100, 50)
       )
     )
-  ), skin = 'purple'
+  )
 )
 
 server <- function(input, output) {
@@ -36,6 +66,10 @@ server <- function(input, output) {
     data <- histdata[seq_len(input$slider)]
     hist(data)
   })
+  output$map <- renderLeaflet({
+    generate_map("Whole City", nycounties, input$MapParam, data )
+  })
+
 }
 
 shinyApp(ui, server)

@@ -29,7 +29,7 @@ nycounties$neighbourhood <- c("Kungsholmen", "Östermalm","Bromma","Skärholmen"
 "Spånga-Tensta", "Älvsjö", "Enskede-Årsta-Vantör", "Rinkeby-Kista")
 
 
-mean.val <- mean.dat$mean_price[match(nycounties$neighbourhood,mean.dat$neighbourhood)]
+#mean.val <- mean.dat$mean_price[match(nycounties$neighbourhood,mean.dat$neighbourhood)]
 
 
 d = palette(rainbow(56))
