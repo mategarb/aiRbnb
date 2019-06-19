@@ -1,0 +1,35 @@
+---
+title: "aiRbnb"
+subtitle: "🏠</br>shiny analysis of Airbnb data"
+author: "Tatiana Belova</br>Mateusz Garbulowski</br>Unn Salberg</br>Karolina Smolinska"
+output: xaringan::moon_reader
+---
+
+# Aim of the project
+
+- To create a shiny application that visualize statistics for Airbnb data
+
+# Dataset
+
+Detailed listings data for Stockholm
+
+http://insideairbnb.com/
+
+![](https://www.pabloyglesias.com/wp-content/uploads/2014/07/brand_case.jpg)
+---
+
+# Functionalities
+- A map of regions (price, rating score etc. )
+
+- Word cloud (description, amenities etc. )
+
+```{r, out.width = "300px", echo=FALSE}
+knitr::include_graphics("sample_wordcloud.png")
+```
+
+- Histograph price per room types
+
+- Boxplots with statistical test for regions
+
+
+
