@@ -2,10 +2,16 @@
 library(tidyverse)
 library(scales)
 dat <- readRDS("data/stockholm.rds")
+#dat <- read.csv("data/listings_Stockholm.csv")
+
+dat$neighbourhood %>% unique()
 
 dat_new <- dat %>%
-  mutate(price= parse_number(dat$price))
+  mutate(price= parse_number(dat$price),
+         neighbourhood2 = iconv(neighbourhood, from = "ASCII", to = "latin1"))
 
+dat_new$neighbourhood2 %>% unique()
+dat_new$neighbourhood %>% unique()
 
 median_price <- function(district){
   if(district!="Stockholm"){
@@ -46,7 +52,7 @@ superhost_rate <- function(district){
                                                                             c("Total", "Superhost", "Fraction_SH", "Fraction_not_SH"))) %>%
     as.data.frame()
 
-  output_mat <- matrix(c(fraction_SH, fraction_not_SH), nrow = 2, dimnames = list(c("SH", "not_SH"),
+  output_mat <- matrix(c(fraction_SH, fraction_not_SH), nrow = 2, dimnames = list(c("Superhost", "Normal host"),
                                                                                 c("Values"))) %>%
     as.data.frame() %>%
     rownames_to_column("Fraction")
@@ -59,7 +65,7 @@ superhost_rate <- function(district){
     scale_fill_brewer("Blues") +
     theme(axis.text.x=element_blank())+
     geom_text(aes(y = Values/2 + c(0, cumsum(Values)[-length(Values)]),
-                  label = percent(Values/100)), size=5)+
+                  label = percent(Values/100)), size=4)+
     theme_minimal()+
     theme(
       axis.title.x = element_blank(),
@@ -67,7 +73,8 @@ superhost_rate <- function(district){
       panel.border = element_blank(),
       panel.grid=element_blank(),
       axis.ticks = element_blank(),
-      plot.title=element_text(size=14, face="bold")
+      axis.text = element_blank(),
+      legend.title = element_blank()
     )
 
   return(gg_output)
