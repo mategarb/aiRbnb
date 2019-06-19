@@ -1,21 +1,21 @@
 #### WILCOX-TEST FOR COMPARISON ####
 
-district_ttest <- function(district1, district2){
-  if(district1!="Stockholm"){
+district_ttest <- function(district1, district2, dat_new){
+  if(district1!="Whole City"){
     group1<- dat_new %>%
       filter(neighbourhood==district1) %>%
       .$price
   }
-  if(district1 == "Stockholm"){
+  if(district1 == "Whole City"){
     group1<- dat_new %>%
       .$price
   }
-  if(district2!="Stockholm"){
+  if(district2!="Whole City"){
     group2<- dat_new %>%
       filter(neighbourhood==district2) %>%
       .$price
   }
-  if(district2=="Stockholm"){
+  if(district2=="Whole City"){
     group2<- dat_new %>%
       .$price
   }

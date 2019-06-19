@@ -9,9 +9,16 @@ library(geojsonR)
 require(tidyverse)
 library(udpipe)
 library(wordcloud)
+library(ggplot2)
+library(scales)
+library(ggpubr)
 source("generate_map.R")
 source("sumarize_data.R")
 source("word_cloud_bnb.R")
+source("histogram_function.R")
+source("superhost_fraction.R")
+source("wilcox_test.R")
+source("remove_outs.R")
 
 nycounties <- geojson_read("../data/neighbourhoods.geojson",
                            what = "sp")
@@ -33,6 +40,8 @@ ui <- dashboardPage(
     shinyDashboardThemes(
       theme = "purple_gradient"
     ),
+    fluidRow(),
+
     fluidRow(box(width=12,
       pickerInput(
       inputId = "MapParam",
@@ -43,7 +52,7 @@ ui <- dashboardPage(
       leafletOutput("map") )),
 
     fluidRow(
-      box(width=12, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
+      box(width=12, solidHeader = TRUE,status = 'primary', collapsible = TRUE, background = NULL,
         title = "Word Cloud",
         column(4, pickerInput(
           inputId = "WordCloud",
@@ -67,28 +76,35 @@ ui <- dashboardPage(
   ),
 
   fluidRow(
-    box(width=12, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
-        title = "Summary",
+    box(width=6, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
+        title = "Price per the room type",
+        plotOutput("histogram1")),
+
+    box(width=3, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
+        title = "Superhost fraction",
+       plotOutput("plot_superhost_frac")
+
+    ),
+    box(width=3, solidHeader = TRUE,status = 'primary', collapsible = TRUE,
+        title = "Neighbourhoods comparison",
         pickerInput(
-          inputId = "summary",
-          label = "Type of information",
-          choices = c('Whole City',as.character(unique(data$neighbourhood))),
+          inputId = "InNeigh2",
+          label = "Select neighbourhood",
+          choices = c(as.character(unique(data$neighbourhood))),
           options = list(
             `live-search` = TRUE)
-        )
-
-    )
+        ),
+        plotOutput("plot_district_ttest"))
   )
+
+
 ))
 
 server <- function(input, output) {
-  set.seed(122)
-  histdata <- rnorm(500)
 
-  output$plot1 <- renderPlot({
-    data <- histdata[seq_len(input$slider)]
-    hist(data)
-  })
+
+
+
   output$map <- renderLeaflet({
     generate_map("Whole City", nycounties, input$MapParam, data )
   })
@@ -100,10 +116,21 @@ server <- function(input, output) {
   output$world_cloud <- renderWordcloud2({
     out_wc <- out_wc()
     out_tab <- out_wc$tab[order(out_wc$tab$freq, decreasing = T),][1:input$slider_wc,]
-
     colfunc <- colorRampPalette(c("darkorchid1","firebrick1", "chartreuse", "deepskyblue", "gold"))
     cols <- colfunc(length(out_tab$freq))
     wordcloud2(out_tab, size = 0.75, shuffle = F, color = cols)
+  })
+
+  output$histogram1<- renderPlot({
+    histogram_function(input$InNeigh, data)
+  })
+
+  output$plot_superhost_frac<- renderPlot({
+    superhost_frac(input$InNeigh, data)
+  })
+
+  output$plot_district_ttest<- renderPlot({
+    district_ttest(input$InNeigh, input$InNeigh2, data)
   })
 
 }

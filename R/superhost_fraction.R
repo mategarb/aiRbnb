@@ -1,7 +1,10 @@
 #### SUPERHOST FRACTION PER DISTRICT ####
 
-superhost_frac <- function(district){
-  if(district!="Stockholm"){
+superhost_frac <- function(district, dat_new){
+  dat_new[['price']] <- dat_new %>% .[['price']] %>% as.character %>%
+    parse_number %>% as.numeric
+
+  if(district!="Whole City"){
     group<- dat_new %>%
       filter(neighbourhood==district)
   }
