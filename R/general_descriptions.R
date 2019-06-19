@@ -84,5 +84,51 @@ superhost_frac <- function(district){
 #superhost_frac("Stockholm")
 
 
+#### T-TEST FOR COMPARISON ####
 
+district_ttest <- function(district1, district2){
+  if(district1!="Stockholm"){
+    group1<- dat_new %>%
+      filter(neighbourhood==district1) %>%
+      .$price
+  }
+  if(district1 == "Stockholm"){
+    group1<- dat_new %>%
+      .$price
+  }
+  if(district2!="Stockholm"){
+    group2<- dat_new %>%
+      filter(neighbourhood==district2) %>%
+      .$price
+  }
+  if(district2=="Stockholm"){
+    group2<- dat_new %>%
+      .$price
+  }
+
+  #T-test
+  df <- list(group1_=group1, group2_=group2)
+  names(df) <- c(paste0(district1, "_"), paste0(district2,"_"))
+  p_val <- round(t.test(df[[1]], df[[2]])[[3]], digits=3)
+  significance <- ifelse(p_val < 0.05, "Significant difference in price ", "No significant difference in price ")
+  output_text <- paste0(significance, "between ", district1, " and ", district2, " (p = ", p_val, ")")
+
+  #Plot
+  output_plot <- df %>%
+    unlist() %>% as.data.frame() %>%
+    rownames_to_column("group") %>% separate(group, into=c("Group", "Number"), sep="_") %>% select(-Number) %>%
+    `colnames<-`(c("Group", "Price")) %>%
+    ggplot()+
+    geom_boxplot(aes(x=Group, y=Price))+
+    labs(caption = paste0(output_text))+
+    theme_bw()+
+    theme(panel.grid = element_blank(),
+          axis.title.x = element_blank())
+
+  return(output_plot)
+
+  }
+
+
+district_ttest("Stockholm", "Kungsholmen")
 
