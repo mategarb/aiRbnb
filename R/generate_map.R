@@ -35,7 +35,7 @@ generate_map <- function(neighbourhoods, nycounties, parameter, data){
           style = list("font-weight" = "normal", padding = "3px 8px"),
           textsize = "15px",
           direction = "auto")) %>%
-      addLegend(pal = pal, values = ~data_summary$mean_val, opacity = 0.7, title = NULL,
+      addLegend(pal = pal, values = ~data_summary$mean_val, opacity = 0.7, title = parameter,
                 position = "bottomright")
     return(p)
 

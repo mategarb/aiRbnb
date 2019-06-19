@@ -1,5 +1,4 @@
 word_cloud_bnb <- function(district, data, info, part_of_speech="adjective", language="english", top_words=10) {
-print(info)
 info_1 <- c("description", "host_about", "summary", "name", "space", "interaction", "house_rules")
 info_2 <- c("amenities", "property_type", "host_verifications", "host_name")
 

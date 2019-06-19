@@ -15,7 +15,7 @@ source("word_cloud_bnb.R")
 
 nycounties <- geojson_read("../data/neighbourhoods.geojson",
                            what = "sp")
-data <- read.csv('../data/listings_Stockholm.csv')
+data <- readRDS('../data/Stockholm.rds')
 
 ui <- dashboardPage(
   dashboardHeader(title = "aiRbnb"),
@@ -44,7 +44,7 @@ ui <- dashboardPage(
       leafletOutput("map") )),
 
     fluidRow(
-      box(width=12,
+      box(width=6,
         title = "Word Cloud",
         pickerInput(
           inputId = "WordCloud",
@@ -54,9 +54,7 @@ ui <- dashboardPage(
           options = list(
             `live-search` = TRUE)
         ),
-        plotOutput("WorldCloud")
-
-    )
+        plotOutput("WorldCloud"))
   ),
 
   fluidRow(
@@ -87,7 +85,7 @@ server <- function(input, output) {
   })
 
   output$WorldCloud <- renderPlot({
-    word_cloud_bnb(district = "Whole City", data, input$WordCloud, part_of_speech="adjective", language="english", top_words=10)
+    word_cloud_bnb(district = "Whole City", data, input$WordCloud, part_of_speech="adjective", language="english", top_words=30)
   })
 
 }
