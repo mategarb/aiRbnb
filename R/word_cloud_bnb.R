@@ -70,8 +70,10 @@ if(any(str_detect(info_2, info))) {
 }
 
 
-colfunc <- colorRampPalette(c("coral", "darkorchid"))
-wordcloud(words = words_inp$words_inp_word, freq = words_inp$Freq, min.freq = 2,
-          max.words=top_words, random.order=F, colors=colfunc(10), scale = c(1.2, 0.5))
+colfunc <- colorRampPalette(c("darkorchid1","firebrick1", "chartreuse", "deepskyblue", "gold"))
+cols <- colfunc(length(words_inp$freq))
+
+colnames(words_inp) <- c("word", "freq")
+wordcloud2(words_inp, color=cols)
 
 }

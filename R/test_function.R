@@ -1,21 +1,26 @@
 library(tidyverse)
 library(udpipe)
-library(wordcloud)
+library(wordcloud2)
+source("R/word_cloud_bnb.R")
 
-data <- readRDS("/Users/mateuszgarbulowski/Desktop/aiRbnb_data/data/stockholm.rds")
+require(devtools)
+install_github("lchiffon/wordcloud2")
+
+data <- readRDS("/Users/mateuszgarbulowski/Desktop/RaukR_project/aiRbnb_data/data/stockholm.rds")
 district <- data$neighbourhood[2]
+info_1 <- c("description", "host_about", "summary", "name", "space", "interaction", "house_rules")
 
 info <- "house_rules"
 info_1 <- c("description", "host_about", "summary", "name", "space", "interaction", "house_rules")
 info_2 <- c("amenities", "property_type", "host_verifications", "host_name")
 
-part_of_spech <- c("adjective", "noun", "verb", "adverb")
+part_of_speech <- c("adjective", "noun", "verb", "adverb")[1]
 
 ### EXAMPLES
-wordCloudBnb("Södermalm", data, "house_rules", "adjective", "english", top=10)
-wordCloudBnb("Norrmalm", data, "house_rules", "adjective", "english", top=10)
-wordCloudBnb("Östermalm", data, "house_rules", "adjective", "english", top=10)
-wordCloudBnb("all", data, "house_rules", "adjective", "english", top=10)
+word_cloud_bnb("Södermalm", data, "house_rules", "adjective", "english", top=50)
+word_cloud_bnb("Norrmalm", data, "house_rules", "adjective", "english", top=10)
+word_cloud_bnb("Östermalm", data, "house_rules", "adjective", "english", top=10)
+word_cloud_bnb("Whole City", data, "house_rules", "adjective", "english", top=20)
 
 wordCloudBnb("Södermalm", data, "description", "noun", "english", top=5)
 wordCloudBnb("Norrmalm", data, "description", "noun", "english", top=5)
