@@ -57,6 +57,10 @@ if(any(str_detect(info_1, info))) {
 
 if(any(str_detect(info_2, info))) {
 
+  if(district != "Whole City") {
+    data <- data %>% filter(neighbourhood==district)
+  }
+
   words <- data %>% .[[info]] %>% str_split(",") %>%
     unlist %>% enframe %>%
     mutate(value=gsub("[^a-zA-Z]", " ", value)) %>%
@@ -68,7 +72,6 @@ if(any(str_detect(info_2, info))) {
   words_inp <- data.frame(words_inp_word, words_inp_freq)
 
 }
-
 
 colfunc <- colorRampPalette(c("darkorchid1","firebrick1", "chartreuse", "deepskyblue", "gold"))
 words_inp <- words_inp[,-2]
